@@ -119,7 +119,25 @@ ADD_SUBDIRECTORY(lib)
 #ADD_SUBDIRECTORY(regress)
 #ADD_SUBDIRECTORY(examples)
 
-# TODO: pkgconfig file
+# pkgconfig file
+SET(prefix ${CMAKE_INSTALL_PREFIX})
+SET(exec_prefix \${prefix})
+SET(bindir \${exec_prefix}/${CMAKE_INSTALL_BINDIR})
+SET(libdir \${exec_prefix}/${CMAKE_INSTALL_LIBDIR})
+SET(includedir \${prefix}/${CMAKE_INSTALL_INCLUDEDIR})
+IF(CMAKE_SYSTEM_NAME MATCHES BSD)
+  SET(PKG_CONFIG_RPATH "-Wl,-R\${libdir}")
+ENDIF(CMAKE_SYSTEM_NAME MATCHES BSD)
+get_target_property(LIBS_PRIVATE zip LINK_LIBRARIES)
+foreach(LIB ${LIBS_PRIVATE})
+  if(LIB MATCHES "^/")
+    get_filename_component(LIB ${LIB} NAME_WE)
+    string(REGEX REPLACE "^lib" "" LIB ${LIB})
+  endif()
+  set(LIBS "${LIBS} -l${LIB}")
+endforeach()
+CONFIGURE_FILE(libzip.pc.in libzip.pc @ONLY)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/libzip.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 # write out config file
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/cmake-config.h.in
