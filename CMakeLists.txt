@@ -1,5 +1,4 @@
 # TODO:
-# 1. pkgconfig file not yet built.
 # 2. installation not tested.
 # 3. Problems generating html pages.
 # 4. create usable libtool .la file
@@ -98,12 +97,6 @@ set(CMAKE_REQUIRED_INCLUDES ${ZLIB_INCLUDE_DIR})
 IF(ZLIB_VERSION_STRING VERSION_LESS "1.1.2")
   MESSAGE(FATAL_ERROR "-- ZLIB version too old, please install at least v1.1.2")
 ENDIF(ZLIB_VERSION_STRING VERSION_LESS "1.1.2")
-
-INCLUDE(FindBZip2)
-IF(BZIP2_FOUND)
-SET (HAVE_LIBBZ2 1)
-INCLUDE_DIRECTORIES(${BZIP2_INCLUDE_DIR})
-ENDIF(BZIP2_FOUND)
 
 IF(MSVC)
 ADD_DEFINITIONS("-D_CRT_SECURE_NO_WARNINGS")
