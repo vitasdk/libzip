@@ -4,7 +4,7 @@
 # 4. create usable libtool .la file
 # 5. runtest not created
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.16)
 
 PROJECT(libzip C)
 
